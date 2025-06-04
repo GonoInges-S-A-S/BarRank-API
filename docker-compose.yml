@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin123
+      MYSQL_DATABASE: barrankdb
+      MYSQL_USER: barrankuser
+      MYSQL_PASSWORD: admin123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  bares-service:
+    build: ./bares-service
+    container_name: bares-service
+    restart: always
+    ports:
+      - "3001:3000"
+    depends_on:
+      - mysql
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=mysql
+      - DB_USER=barrankuser
+      - DB_PASSWORD=admin123
+      - DB_NAME=barrankdb
+
+  usuarios-service:
+    build: ./usuarios-service
+    container_name: usuarios-service
+    restart: always
+    ports:
+      - "3002:3000"
+    depends_on:
+      - mysql
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=mysql
+      - DB_USER=barrankuser
+      - DB_PASSWORD=admin123
+      - DB_NAME=barrankdb
+
+  resenas-service:
+    build: ./resenas-service
+    container_name: resenas-service
+    restart: always
+    ports:
+      - "3003:3000"
+    depends_on:
+      - mysql
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=mysql
+      - DB_USER=barrankuser
+      - DB_PASSWORD=admin123
+      - DB_NAME=barrankdb
+
+volumes:
+  mysql-data:
