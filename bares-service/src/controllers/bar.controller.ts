@@ -34,6 +34,7 @@ export const getBarById = async (req: Request, res: Response): Promise<void> => 
 
 // Crear un nuevo bar
 export const createBar = async (req: Request, res: Response): Promise<void> => {
+  console.log('👉 Datos recibidos:', req.body);
   const { nombre, direccion, ciudad, descripcion, categoria_id } = req.body;
   try {
     const [result] = await pool.query<ResultSetHeader>(

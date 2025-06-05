@@ -11,7 +11,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 // ✅ Usamos el enrutador para el CRUD
-app.use('/api/bars', barRoutes);
+app.use('/api/bares', barRoutes);
 
 // ✅ Ruta de prueba de conexión a la DB (opcional)
 /*app.get('/api/health', async (req, res) => {
