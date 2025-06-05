@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import barRoutes from './routes/bar.routes'; // Usa el nombre que tú definiste
 import pool from './database';
 
 dotenv.config();
@@ -9,16 +10,19 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// Ruta de prueba
-app.get('/api/bars', async (req, res) => {
+// ✅ Usamos el enrutador para el CRUD
+app.use('/api/bars', barRoutes);
+
+// ✅ Ruta de prueba de conexión a la DB (opcional)
+/*app.get('/api/health', async (req, res) => {
   try {
-    const [rows] = await pool.query('SELECT * FROM bares'); // apuntamiento a la tabla 'bares'
-    res.json(rows);
+    await pool.query('SELECT 1');
+    res.status(200).json({ status: 'OK', message: 'Conexión exitosa a la base de datos' });
   } catch (error) {
-    console.error('Error consultando bares:', error);
-    res.status(500).json({ error: 'Error interno del servidor' });
+    console.error('❌ Error conectando a la DB:', error);
+    res.status(500).json({ status: 'FAIL', error: 'Error de conexión a la base de datos' });
   }
-});
+});*/
 
 app.listen(port, () => {
   console.log(`✅ Microservicio de Bares escuchando en http://localhost:${port}`);
