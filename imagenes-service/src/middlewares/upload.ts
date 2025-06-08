@@ -8,9 +8,10 @@ const storage = multer.diskStorage({
     cb(null, 'uploads/'); // Carpeta donde se guardan las imágenes
   },
   filename: function (_req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    const extension = path.extname(file.originalname);
-    cb(null, file.fieldname + '-' + uniqueSuffix + extension);
+  const timestamp = Date.now();
+  const ext = path.extname(file.originalname);
+  const baseName = path.basename(file.originalname, ext).replace(/\s+/g, '_'); // sin espacios
+  cb(null, `${baseName}_${timestamp}${ext}`);
   },
 });
 
