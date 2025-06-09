@@ -1,12 +1,12 @@
 version: '3.8'
 
 services:
-  mysql:
-    image: mysql:8
-    container_name: mysql
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: admin123
+      MYSQL_ROOT_PASSWORD: root123
       MYSQL_DATABASE: barrankdb
       MYSQL_USER: barrankuser
       MYSQL_PASSWORD: admin123
@@ -14,51 +14,79 @@ services:
       - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
 
   bares-service:
     build: ./bares-service
-    container_name: bares-service
-    restart: always
     ports:
       - "3001:3000"
-    depends_on:
-      - mysql
     environment:
-      - NODE_ENV=development
-      - DB_HOST=mysql
-      - DB_USER=barrankuser
-      - DB_PASSWORD=admin123
-      - DB_NAME=barrankdb
-
-  usuarios-service:
-    build: ./usuarios-service
-    container_name: usuarios-service
+      DB_HOST: mysql-db
+      DB_PORT: 3306
+      DB_USER: barrankuser
+      DB_PASSWORD: admin123
+      DB_NAME: barrankdb
+    depends_on:
+      - mysql-db
     restart: always
+
+  categorias-service:
+    build: ./categorias-service
     ports:
-      - "3002:3000"
-    depends_on:
-      - mysql
+      - "3003:3000"
     environment:
-      - NODE_ENV=development
-      - DB_HOST=mysql
-      - DB_USER=barrankuser
-      - DB_PASSWORD=admin123
-      - DB_NAME=barrankdb
+      DB_HOST: mysql-db
+      DB_PORT: 3306
+      DB_USER: barrankuser
+      DB_PASSWORD: admin123
+      DB_NAME: barrankdb
+    depends_on:
+      - mysql-db
+    restart: always
+
+  imagenes-service:
+    build: ./imagenes-service
+    ports:
+      - "3004:3000"
+    volumes:
+      - ./imagenes-service/uploads:/app/uploads
+    environment:
+      DB_HOST: mysql-db
+      DB_PORT: 3306
+      DB_USER: barrankuser
+      DB_PASSWORD: admin123
+      DB_NAME: barrankdb
+    depends_on:
+      - mysql-db
+    restart: always
 
   resenas-service:
     build: ./resenas-service
-    container_name: resenas-service
-    restart: always
     ports:
-      - "3003:3000"
-    depends_on:
-      - mysql
+      - "3002:3000"
     environment:
-      - NODE_ENV=development
-      - DB_HOST=mysql
-      - DB_USER=barrankuser
-      - DB_PASSWORD=admin123
-      - DB_NAME=barrankdb
+      DB_HOST: mysql-db
+      DB_PORT: 3306
+      DB_USER: barrankuser
+      DB_PASSWORD: admin123
+      DB_NAME: barrankdb
+    depends_on:
+      - mysql-db
+    restart: always
+
+  usuarios-service:
+    build: ./usuarios-service
+    ports:
+      - "3005:3000"
+    environment:
+      DB_HOST: mysql-db
+      DB_PORT: 3306
+      DB_USER: barrankuser
+      DB_PASSWORD: admin123
+      DB_NAME: barrankdb
+    depends_on:
+      - mysql-db
+    restart: always
 
 volumes:
   mysql-data:

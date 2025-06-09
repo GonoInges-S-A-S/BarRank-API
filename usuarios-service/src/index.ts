@@ -6,13 +6,12 @@ import pool from './database';
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = 3000; // <--- directamente
 
 app.use(express.json());
-
-// ✅ Usamos el enrutador para el CRUD
+// Montar rutas del microservicio de Usuarios
 app.use('/api/users', userRoutes);
 
-app.listen(port, () => {
-  console.log(`✅ Microservicio de Usuarios escuchando en http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+  console.log(`✅ Microservicio de Usuarios escuchando en http://0.0.0.0:${port}`);
 });

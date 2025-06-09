@@ -6,12 +6,12 @@ import reseRoutes from './routes/categoria.routes';
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3003;
+const port = 3000; // <--- directamente
 
 app.use(express.json());
 
 app.use('/api/categorias', reseRoutes);
 
-app.listen(port, () => {
-  console.log(`✅ Microservicio de categorias corriendo en http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+  console.log(`✅ Microservicio de categorias escuchando en http://0.0.0.0:${port}`);
 });
