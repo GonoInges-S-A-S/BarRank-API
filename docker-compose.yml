@@ -15,6 +15,8 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
       - ./mysql-init:/docker-entrypoint-initdb.d
+    networks:
+      - barrank-network
 
   bares-service:
     build: ./bares-service
@@ -29,6 +31,8 @@ services:
     depends_on:
       - mysql-db
     restart: always
+    networks:
+      - barrank-network
 
   categorias-service:
     build: ./categorias-service
@@ -43,6 +47,8 @@ services:
     depends_on:
       - mysql-db
     restart: always
+    networks:
+      - barrank-network
 
   imagenes-service:
     build: ./imagenes-service
@@ -59,6 +65,8 @@ services:
     depends_on:
       - mysql-db
     restart: always
+    networks:
+      - barrank-network
 
   resenas-service:
     build: ./resenas-service
@@ -73,6 +81,8 @@ services:
     depends_on:
       - mysql-db
     restart: always
+    networks:
+      - barrank-network
 
   usuarios-service:
     build: ./usuarios-service
@@ -87,6 +97,12 @@ services:
     depends_on:
       - mysql-db
     restart: always
+    networks:
+      - barrank-network
 
 volumes:
   mysql-data:
+
+networks:
+  barrank-network:
+    external: true
