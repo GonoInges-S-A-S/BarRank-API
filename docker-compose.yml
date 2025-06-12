@@ -20,6 +20,7 @@ services:
 
   bares-service:
     build: ./bares-service
+    container_name: bares-service  # 👈 agregado
     ports:
       - "3001:3000"
     environment:
@@ -36,6 +37,7 @@ services:
 
   categorias-service:
     build: ./categorias-service
+    container_name: categorias-service  # 👈 agregado
     ports:
       - "3003:3000"
     environment:
@@ -52,6 +54,7 @@ services:
 
   imagenes-service:
     build: ./imagenes-service
+    container_name: imagenes-service  # 👈 agregado
     ports:
       - "3004:3000"
     volumes:
@@ -70,6 +73,7 @@ services:
 
   resenas-service:
     build: ./resenas-service
+    container_name: resenas-service  # 👈 agregado
     ports:
       - "3002:3000"
     environment:
@@ -86,6 +90,7 @@ services:
 
   usuarios-service:
     build: ./usuarios-service
+    container_name: usuarios-service  # 👈 agregado
     ports:
       - "3005:3000"
     environment:
